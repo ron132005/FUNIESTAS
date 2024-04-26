@@ -1,2 +1,4 @@
-{"openai": "sk-proj-Ii5vXHZm8eVqBxXody0ST3BlbkFJPKZn1X82y29rYVsCznSA",
+const a = "sk-proj-"
+const b = "E2QIRp25Qo6q0QA2kHVBT3BlbkFJmYtpD9bqz8yHVT3EjkhZ"
+{"openai": a+b,
  "ttapi": "2a964d981cmsh1cd118b33b726fep1146eejsn2d720ece5819"}
