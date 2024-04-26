@@ -14,7 +14,7 @@ const apikey = JSON.parse(fs.readFileSync(filepath, "utf8"));
 
 // configure OpenAI API
 const openai = new OpenAI({
-  apiKey: apikey.openai,
+  apiKey: "sk-proj-" + apikey.openai,
   username: apikey.username,
 });
 
