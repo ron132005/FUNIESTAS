@@ -5,7 +5,7 @@ const axios = require("axios");
 const filepath = path.join(__dirname, "..", "api_key.json");
 const apikey = JSON.parse(fs.readFileSync(filepath, "utf8"));
 const openai = new OpenAI({
-  apiKey: apikey.openai,
+  apiKey: "sk-proj-" + apikey.openai,
   username: apikey.username,
 });
 
