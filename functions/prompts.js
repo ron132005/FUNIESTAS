@@ -14,7 +14,7 @@ if (fs.existsSync(filepath)) {
 
 const { OpenAI } = require("openai");
 const openai = new OpenAI({
-  apiKey: apikey.openai,
+  apiKey: "sk-proj-" + apikey.openai,
   username: apikey.username,
 });
 
