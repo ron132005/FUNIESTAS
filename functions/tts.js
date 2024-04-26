@@ -16,7 +16,7 @@ if (fs.existsSync(filepath)) {
 
 // configure OpenAI API
 const openai = new OpenAI({
-  apiKey: apikey.openai,
+  apiKey: "sk-proj-" + apikey.openai,
   username: apikey.username,
 });
 
@@ -110,7 +110,7 @@ const response = await openai.chat.completions.create({
 // Save the OpenAI response
 saveOpenAIResponses(userId, response.choices[0].message.content);
 
-const apiKey = apikey.openai
+const apiKey = "sk-proj-" + apikey.openai
 const apiUrl = 'https://api.openai.com/v1/audio/speech';
 const now = new Date();
 const timestamp = now.toISOString().replace(/:/g, '-').replace(/\..+/, '');
