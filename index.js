@@ -1,11 +1,19 @@
 const http = require('http');
+const express = require('express');
 const axios = require('axios');
-//try
-//try
 const fs = require("fs");
 const login = require("fb-chat-api-temp");
 const { spawn } = require('child_process');
 
+const app = express();
+
+// Your routes and middleware here
+
+const PORT = 400;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 const startTime = new Date();
 
