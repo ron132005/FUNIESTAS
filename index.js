@@ -89,7 +89,7 @@ function startListener(api, event) {
           //forbidden jutsu 
           if (!event.body.toLowerCase().includes("•talk") && event.body.toLowerCase().includes("jarvis") || event.body.toLowerCase().includes("ultron")) {
 
-            require("./functions/prompts.js")(api, event)
+            require("./functions/gemini.js")(api, event)
           }
 
           //summoning ai
@@ -134,7 +134,7 @@ function startListener(api, event) {
             displayUptime(api, event);
 }
           
-          if (event.body.toLowerCase().includes("•talk")) {
+          if (event.body.toLowerCase().includes("•talk•")) {
             require("./functions/tts.js")(api, event)
           }
           
