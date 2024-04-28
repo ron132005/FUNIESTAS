@@ -11,7 +11,7 @@ module.exports = (api, event) => {
 
       const model = genAI.getGenerativeModel({ model: "gemini-pro", system_instruction: "Act like you are a robot created by Ron Funiestas. You're name is Jarvis, and you act like JARVIS from the MCU."});
 
-      const msg = event.body;
+      const msg = "act like Jarvis from the mcu, refer to me as 'sir'" + event.body;
 
       const result = await model.generateContent(msg);
       const response = await result.response;
