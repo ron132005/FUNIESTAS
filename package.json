@@ -18,7 +18,7 @@
     "yt-search": "^2.10.4",
     "ytdl-core": "^4.11.5"
   },
-  "name": "Jarvis on Facebook",
+  "name": "jarvis-on-facebook",
   "description": "Greetings, I am pleased to present my current project, a Facebook bot powered with Google Gemini technology. While the coding may not be as neat, it serves as a starting point in this endeavor. I am excited to continue developing and learning more from this project. Thank you.",
   "version": "1.0.0",
   "main": "index.js",
