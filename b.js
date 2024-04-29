@@ -1,40 +1,30 @@
-const { exec } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec);
 
-const logFilePath = path.join(__dirname, 'tmux_script.log');
-
-function executeCommand(command) {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(stderr);
-        return;
-      }
-      resolve(stdout.trim());
-    });
-  });
-}
-
-function logError(error) {
-  const errorMessage = `[${new Date().toISOString()}] Error: ${error}`;
-  fs.appendFileSync(logFilePath, errorMessage + '\n');
-}
-
-async function runTmuxLoop() {
-  const sessionName = 'mysession';
+// Function to start the Node process
+async function startNodeProcess() {
+  console.log('Starting Node process...');
   try {
-    await executeCommand(`tmux new-session -d -s ${sessionName}`);
-    await executeCommand(`tmux send-keys -t ${sessionName} "cd project && node index" C-m`);
-    await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000)); // 15 minutes in milliseconds
-    await executeCommand(`tmux kill-session -t ${sessionName}`);
-    const logMessage = `[${new Date().toISOString()}] Session ${sessionName} closed, restarting tmux...`;
-    fs.appendFileSync(logFilePath, logMessage + '\n');
-    runTmuxLoop();
+    await exec('node index.js');
+    console.log('Node process started successfully.');
   } catch (error) {
-    logError(error);
-    setTimeout(runTmuxLoop, 10000); // Retry after 10 seconds
+    console.error(`Error starting Node process: ${error}`);
   }
 }
 
-runTmuxLoop();
+// Function to restart Node process
+async function restartNodeProcess() {
+  console.log('Restarting Node process...');
+  try {
+    await exec('pkill node');
+    await startNodeProcess(); // Restart Node process
+  } catch (error) {
+    console.error(`Error restarting Node process: ${error}`);
+  }
+}
+
+// Start Node process initially
+startNodeProcess();
+
+// Restart Node process every 3 hours
+setInterval(restartNodeProcess, 3 * 60 * 60 * 1000);
