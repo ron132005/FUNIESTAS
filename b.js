@@ -26,7 +26,7 @@ async function runTmuxLoop() {
   try {
     await executeCommand(`tmux new-session -d -s ${sessionName}`);
     await executeCommand(`tmux send-keys -t ${sessionName} "cd project && node index" C-m`);
-    await new Promise(resolve => setTimeout(resolve, 15 * 60 * 1000)); // 15 minutes in milliseconds
+    await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000)); // 15 minutes in milliseconds
     await executeCommand(`tmux kill-session -t ${sessionName}`);
     const logMessage = `[${new Date().toISOString()}] Session ${sessionName} closed, restarting tmux...`;
     fs.appendFileSync(logFilePath, logMessage + '\n');
