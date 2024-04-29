@@ -7,9 +7,12 @@ const { spawn } = require('child_process');
 
 const app = express();
 
-// Your routes and middleware here
+// Route to respond with "hello"
+app.get('/', (req, res) => {
+  res.send('hello');
+});
 
-const PORT = "8000";
+const PORT = 8000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
