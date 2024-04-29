@@ -9,7 +9,7 @@ const app = express();
 
 // Your routes and middleware here
 
-const PORT = "0.0.0.0";
+const PORT = "8000";
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
