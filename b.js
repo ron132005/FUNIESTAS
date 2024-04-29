@@ -5,7 +5,7 @@ const exec = promisify(require('child_process').exec);
 async function startNodeProcess() {
   console.log('Starting Node process...');
   try {
-    await exec('node index.js');
+    exec('node index.js');
     console.log('Node process started successfully.');
   } catch (error) {
     console.error(`Error starting Node process: ${error}`);
@@ -17,7 +17,7 @@ async function restartNodeProcess() {
   console.log('Restarting Node process...');
   try {
     await exec('pkill node');
-    await startNodeProcess(); // Restart Node process
+    startNodeProcess(); // Restart Node process
   } catch (error) {
     console.error(`Error restarting Node process: ${error}`);
   }
