@@ -21,36 +21,20 @@ function logError(error) {
   fs.appendFileSync(logFilePath, errorMessage + '\n');
 }
 
-function runTmuxLoop() {
-  let sessionName = 'mysession';
-  executeCommand(`tmux new-session -d -s ${sessionName}`)
-    .then(() => executeCommand(`tmux send-keys -t ${sessionName} "cd project && node index" C-m`))
-    .then(() => {
-      setTimeout(() => {
-        executeCommand(`tmux kill-session -t ${sessionName}`)
-          .then(() => {
-            const logMessage = `[${new Date().toISOString()}] Session ${sessionName} closed, restarting tmux...`;
-            fs.appendFileSync(logFilePath, logMessage + '\n');
-            runTmuxLoop();
-          })
-          .catch((error) => {
-            logError(error);
-            setTimeout(runTmuxLoop, 10000); // Retry after 10 seconds
-          });
-      }, 2 * 60 * 60 * 1000); // 15 seconds in milliseconds
-    })
-    .catch((error) => {
-      logError(error);
-      setTimeout(runTmuxLoop, 10000); // Retry after 10 seconds
-    });
-}
-
-// Main function wrapped in try-catch block to restart in case of error
-function startScript() {
+async function runTmuxLoop() {
+  const sessionName = 'mysession';
   try {
+    await executeCommand(`tmux new-session -d -s ${sessionName}`);
+    await executeCommand(`tmux send-keys -t ${sessionName} "cd project && node index" C-m`);
+    await new Promise(resolve => setTimeout(resolve, 15 * 60 * 1000)); // 15 minutes in milliseconds
+    await executeCommand(`tmux kill-session -t ${sessionName}`);
+    const logMessage = `[${new Date().toISOString()}] Session ${sessionName} closed, restarting tmux...`;
+    fs.appendFileSync(logFilePath, logMessage + '\n');
     runTmuxLoop();
   } catch (error) {
     logError(error);
     setTimeout(runTmuxLoop, 10000); // Retry after 10 seconds
   }
 }
+
+runTmuxLoop();
