@@ -3,8 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 // Function to fetch the image of a URL using Thum.io with authentication
-async function getImage(url, apiKey) {
+async function getImageWithDelay(url, apiKey, delay) {
     try {
+        // Add a delay before fetching the image
+        await new Promise(resolve => setTimeout(resolve, delay));
+
         const response = await axios.get(`https://image.thum.io/get/auth/${apiKey}/width/600/crop/800/${url}`, {
             responseType: 'stream'
         });
@@ -36,9 +39,18 @@ module.exports = (api, event) => {
     const keys = JSON.parse(fs.readFileSync('keys.txt', 'utf8').trim());
     const apiKey = keys.thumio;
 
-    const url = event.body;
+    let url = event.body;
 
-    getImage(url, apiKey)
+    // Check if the URL starts with 'https://'
+    if (!url.startsWith('https://')) {
+        // If not, prepend 'https://'
+        url = 'https://' + url;
+    }
+
+    // Add a delay of 5 seconds (5000 milliseconds)
+    const delay = 5000;
+
+    getImageWithDelay(url, apiKey, delay)
         .then(filePath => {
             // Send message with attachment
             api.sendMessage({
@@ -54,6 +66,6 @@ module.exports = (api, event) => {
             });
         })
         .catch(error => {
-            console.error('Failed to download image:');
+            console.error('Failed to download image:', error);
         });
 };
