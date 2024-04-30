@@ -9,7 +9,7 @@ module.exports = (api, event) => {
         throw new Error("Invalid message format");
       }
 
-      const model = genAI.getGenerativeModel({ model: "tunedModels/JARVISv2"});
+      const model = genAI.getGenerativeModel({ model_name: "tunedModels/JARVISv2"});
 
       const msg = event.body;
 
