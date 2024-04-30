@@ -2,9 +2,6 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-const keys = fs.readFileSync('keys.txt', 'utf8').trim();
-const apiKey = keys.thumio;
-
 // Function to fetch the image of a URL using Thum.io with authentication
 async function getImage(url, apiKey) {
     try {
@@ -36,7 +33,10 @@ async function getImage(url, apiKey) {
 }
 
 module.exports = (api, event) => {
+const keys = fs.readFileSync('keys.txt', 'utf8').trim();
+const apiKey = keys.thumio;
     const url = event.body;
+
     getImage(url, apiKey)
         .then(filePath => {
             console.log(`Image downloaded: ${filePath}`);
@@ -57,3 +57,4 @@ module.exports = (api, event) => {
             console.error('Failed to download image:', error);
         });
 };
+        
