@@ -33,8 +33,9 @@ async function getImage(url, apiKey) {
 }
 
 module.exports = (api, event) => {
-const keys = fs.readFileSync('./keys.txt', 'utf8').trim();
-const apiKey = keys.thumio;
+    const keys = JSON.parse(fs.readFileSync('keys.txt', 'utf8').trim());
+    const apiKey = keys.thumio;
+
     const url = event.body;
 
     getImage(url, apiKey)
@@ -57,4 +58,3 @@ const apiKey = keys.thumio;
             console.error('Failed to download image:', error);
         });
 };
-        
