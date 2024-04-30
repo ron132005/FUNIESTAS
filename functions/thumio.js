@@ -40,14 +40,13 @@ module.exports = (api, event) => {
 
     getImage(url, apiKey)
         .then(filePath => {
-            console.log(`Image downloaded: ${filePath}`);
             // Send message with attachment
             api.sendMessage({
                 body: url,
                 attachment: fs.createReadStream(filePath),
             }, event.threadID, (err, res) => {
                 if (err) {
-                    console.error('Error sending message:', err);
+                    api.sendMessage(`❌Cannot screenshot the url ${url}!`, event.threadID, event.messageID)
                 }
                 // Remove the image file after sending
                 fs.unlinkSync(filePath);
@@ -55,6 +54,6 @@ module.exports = (api, event) => {
             });
         })
         .catch(error => {
-            console.error('Failed to download image:', error);
+            console.error('Failed to download image:');
         });
 };
