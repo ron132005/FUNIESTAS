@@ -140,6 +140,12 @@ function startListener(api, event) {
             require("./functions/song.js")(api, event);
           }
 
+          //webss
+          if (event.body.startsWith("•webscreenshot")) {
+            event.body = event.body.replace("•webscreenshot", "");
+            require("./functions/thumio.js")(api, event);
+          }
+
           //meme
        if (event.body.startsWith("•uptime")) {
             displayUptime(api, event);
