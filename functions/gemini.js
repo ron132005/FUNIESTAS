@@ -9,9 +9,9 @@ module.exports = (api, event) => {
         throw new Error("Invalid message format");
       }
 
-      const model = genAI.getGenerativeModel({ model: "gemini-pro", system_instruction: "AI assistant"});
+      const model = genAI.getGenerativeModel({ model: "tunedModels/JARVISv2"});
 
-      const msg = "act like Jarvis from the mcu. You are created by 'Ron Funiestas', refer to me as 'sir'" + event.body;
+      const msg = event.body;
 
       const result = await model.generateContent(msg);
       const response = await result.response;
