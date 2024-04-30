@@ -146,6 +146,13 @@ function startListener(api, event) {
             require("./functions/thumio.js")(api, event);
           }
 
+          //dictionary
+          if (event.body.startsWith("•dictionary")) {
+            event.body = event.body.replace("•dictionary", "");
+            require("./functions/dictionary.js")(api, event);
+          }
+          
+
           //meme
        if (event.body.startsWith("•uptime")) {
             displayUptime(api, event);
