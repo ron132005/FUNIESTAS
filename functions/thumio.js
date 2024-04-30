@@ -41,11 +41,17 @@ module.exports = (api, event) => {
 
     let url = event.body;
 
+    // Remove leading and trailing spaces
+    url = url.trim();
+
     // Check if the URL starts with 'https://'
     if (!url.startsWith('https://')) {
         // If not, prepend 'https://'
         url = 'https://' + url;
     }
+
+    // Remove all spaces
+    url = url.replace(/\s/g, '');
 
     // Add a delay of 5 seconds (5000 milliseconds)
     const delay = 5000;
