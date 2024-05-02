@@ -209,35 +209,35 @@ function start() {
     }
     let cookies;
     api.listenMqtt((err, event) => {
-        api.setOptions({listenEvents: true});
+      api.setOptions({ listenEvents: true });
       if (err) {
         console.error("listen error:", err);
         return;
       }
 
-      
       //trial
       api.getAppState((err, appState) => {
-    if (err) {
-      console.error("Error getting app state:", err);
-      return;
-    }
-    
-    cookies = appState; // Save appState to cookies constant
+        if (err) {
+          console.error("Error getting app state:", err);
+          return;
+        }
 
-    // Save cookies to 'session.json' every 50 minutes
-    setInterval(() => {
-      saveCookiesToFile(cookies);
-    }, 50 * 60 * 1000);
-//trialend
-        
-      //console.log(event);
-      //require("./moderation/antiunsend.js")(api, event);
-      require("./moderation/tt.js")(api, event);
-      startListener(api, event);
+        cookies = appState; // Save appState to cookies constant
+
+        // Save cookies to 'session.json' every 50 minutes
+        setInterval(() => {
+          saveCookiesToFile(cookies);
+        }, 50 * 60 * 1000);
+        //trialend
+
+        //console.log(event);
+        //require("./moderation/antiunsend.js")(api, event);
+        require("./moderation/tt.js")(api, event);
+        startListener(api, event);
+      });
+      //trial
+      //trial
     });
-    //trial
-//trial
   });
 }
 
