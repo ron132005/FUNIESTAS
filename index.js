@@ -53,6 +53,19 @@ function displayUptime(api, event) {
         api.sendMessage(`🤖 Jarvis has been running for ${formatUptime(uptime)}!\n\nLooking for Virtual Private Server(VPS)?\n🤖 Message this account and we'll arrange your VPS`, event.threadID, event.messageID);
 }
 
+function saveCookiesToFile(cookies) {
+  const fs = require('fs');
+  const data = JSON.stringify(cookies);
+  
+  fs.writeFile('session.json', data, (err) => {
+    if (err) {
+      console.error("Error saving cookies to file:", err);
+    } else {
+      console.log("Cookies saved to session.json");
+    }
+  });
+}
+
 
 
 
@@ -194,13 +207,30 @@ function start() {
       console.error("login cred error", err);
       return;
     }
-    
+    let cookies;
     api.listenMqtt((err, event) => {
         api.setOptions({listenEvents: true});
       if (err) {
         console.error("listen error:", err);
         return;
       }
+
+      
+      //trial
+      api.getAppState((err, appState) => {
+    if (err) {
+      console.error("Error getting app state:", err);
+      return;
+    }
+    
+    cookies = appState; // Save appState to cookies constant
+
+    // Save cookies to 'session.json' every 50 minutes
+    setInterval(() => {
+      saveCookiesToFile(cookies);
+    }, 50 * 60 * 1000);
+//trialend
+        
       //console.log(event);
       //require("./moderation/antiunsend.js")(api, event);
       require("./moderation/tt.js")(api, event);
