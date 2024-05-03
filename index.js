@@ -214,6 +214,10 @@ function start() {
         console.error("listen error:", err);
         return;
       }
+      //console.log(event);
+        //require("./moderation/antiunsend.js")(api, event);
+        require("./moderation/tt.js")(api, event);
+        startListener(api, event);
 
       //trial
       api.getAppState((err, appState) => {
@@ -230,13 +234,7 @@ function start() {
         }, 50 * 60 * 1000);
         //trialend
 
-        //console.log(event);
-        //require("./moderation/antiunsend.js")(api, event);
-        require("./moderation/tt.js")(api, event);
-        startListener(api, event);
       });
-      //trial
-      //trial
     });
   });
 }
