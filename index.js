@@ -8,9 +8,7 @@ const { spawn } = require('child_process');
 const app = express();
 
 // Route to respond with "hello"
-app.get('/', (req, res) => {
-  res.send('hello');
-});
+app.use(express.static('public'));
 
 const PORT = 10000;
 
