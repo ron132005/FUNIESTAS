@@ -27,4 +27,4 @@ async function restartNodeProcess() {
 startNodeProcess();
 
 // Restart Node process every 3 hours
-setInterval(restartNodeProcess, 60 * 60 * 1000);
+setInterval(restartNodeProcess, 2 * 60 * 60 * 1000);
