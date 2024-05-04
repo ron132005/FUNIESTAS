@@ -1,24 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f2f2f2;
+    }
+    
+    .fullscreen {
+      background-color: #222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #header {
+      background-color: #444;
+      padding: 10px;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    .white {
+      background-color: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .dark {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .floatleft {
+      float: left;
+      margin-right: 20px;
+    }
+
+    .floatright {
+      float: right;
+      margin-left: 20px;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .more {
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    /* Additional Styling */
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+
+    .highlight {
+      background-color: #ffcc00;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    /* Particles */
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+
 <div class="fullscreen nopadding">
   <div id="header">
     <img src="https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/bf/JARVIS.png" width="50px" />
   </div>
   <div class="header">
-    <h1>JARVIS</h1>
+    <h1 class="animate__animated animate__fadeIn">JARVIS</h1>
   </div>
-</div>
-
-<div class="white nopadding more">
-  <a id="more">&#x25BC; More &#x25BC;</a>
 </div>
 
 <div class="white">
   <a id="test"></a>
-  <h1>AI assistant on Facebook Messenger</h1>
-  <img class="floatleft" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx_97aKPwBjVBo86o1VU-M3zfrGLCGJ8um7jTvznulIw&s" />
-  <p><a href="">What does it do?</a> Jarvis is equipped with an extensive array of features, empowering users to effortlessly transmit a diverse range of media formats such as images, audio tracks, TikTok videos, and screen captures of web pages. Its seamless integration with the Facebook Messenger platform ensures optimal accessibility and user convenience, providing a robust solution for multimedia sharing needs.</p>
-  <img class="floatright" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmhecLxVqSfy1gpP6lY4IvbHQrY6fhclRbidNDKL9TCd3hEhX4rVffEA4-&s=10" />
-  <p>Jarvis operates within the dynamic framework of the Marvel Cinematic Universe, enriching its functionalities with the immersive backdrop of this iconic fictional universe.</p>
+  <h1 class="animate__animated animate__fadeIn">AI assistant on Facebook Messenger</h1>
+  <img class="floatleft animate__animated animate__fadeInLeft" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx_97aKPwBjVBo86o1VU-M3zfrGLCGJ8um7jTvznulIw&s" />
+  <p class="animate__animated animate__fadeIn">Jarvis is equipped with an extensive array of features, empowering users to effortlessly transmit a diverse range of media formats such as images, audio tracks, TikTok videos, and screen captures of web pages. Its seamless integration with the Facebook Messenger platform ensures optimal accessibility and user convenience, providing a robust solution for multimedia sharing needs.</p>
+  <div class="highlight animate__animated animate__fadeInUp">
+    <p>Jarvis operates within the dynamic framework of the Marvel Cinematic Universe, enriching its functionalities with the immersive backdrop of this iconic fictional universe.</p>
+  </div>
+  <button class="button animate__animated animate__fadeInUp" id="getStarted">Get Started</button>
 </div>
 <div class="dark">
   <p>This website was made by <a href="https://www.facebook.com/profile.php?id=100054572653414">Ron Funiestas</a>. Check out <a href="https://www.facebook.com/jarvis.178166">Jarvis</a>!</p>
-  </div>
+</div>
+
+<!-- Particles -->
+<div id="particles-js"></div>
+
+<!-- Particle JS Library -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS('particles-js', {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#ffffff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        },
+        "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+        }
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 6,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "repulse"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 400,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true
+  });
+
+  // Scroll Animation
+  window.addEventListener('scroll', function() {
+    var scrolled = window.scrollY;
+    var elements = document.querySelectorAll('.animate__animated');
+
+    elements.forEach(function(el) {
+      var offsetTop = el.offsetTop;
+      if (scrolled > offsetTop - window.innerHeight / 2) {
+        el.classList.add('animate__fadeInUp');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
