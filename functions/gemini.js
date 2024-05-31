@@ -1,6 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI("AIzaSyD9hjR_ihWdtzH1kt9PyusTriKAWdywj3s");
+const genAI = new GoogleGenerativeAI("AIzaSyDBqRrTyKIjDq20TDMIun9hBeCEvMcgfoc");
 module.exports = (api, event) => {
   async function run() {
     try {
