@@ -3,6 +3,32 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI("AIzaSyDBqRrTyKIjDq20TDMIun9hBeCEvMcgfoc");
 module.exports = (api, event) => {
   const fontMap = {
+  'a': '𝐚',
+  'b': '𝐛',
+  'c': '𝐜',
+  'd': '𝐝',
+  'e': '𝐞',
+  'f': '𝐟',
+  'g': '𝐠',
+  'h': '𝐡',
+  'i': '𝐢',
+  'j': '𝐣',
+  'k': '𝐤',
+  'l': '𝐥',
+  'm': '𝐦',
+  'n': '𝐧',
+  'o': '𝐨',
+  'p': '𝐩',
+  'q': '𝐪',
+  'r': '𝐫',
+  's': '𝐬',
+  't': '𝐭',
+  'u': '𝐮',
+  'v': '𝐯',
+  'w': '𝐰',
+  'x': '𝐱',
+  'y': '𝐲',
+  'z': '𝐳'
   'A': '𝐀',
   'B': '𝐁',
   'C': '𝐂',
@@ -32,9 +58,8 @@ module.exports = (api, event) => {
 };
 
   function formatText(text) {
-    text = text.replace(/\*{2}(.*?)\*{2}/g, (match, group) => {
-        return match.replace(group, group.split('').map(char => fontMap[char.toUpperCase()] || char).join(''));
-    text = text.replace(/\*/g, '•');
+    text = text.replace(/\*/g, '');
+    text = text.split('').map(char => fontMap[char] || char).join('');
     return text;
 };
                                   
