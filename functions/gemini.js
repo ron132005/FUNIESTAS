@@ -2,6 +2,12 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI("AIzaSyDBqRrTyKIjDq20TDMIun9hBeCEvMcgfoc");
 module.exports = (api, event) => {
+  function formatText(text) {
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*/g, '•');
+    return text;
+};
+                                  
   async function run() {
     try {
       // Validate message
@@ -16,8 +22,9 @@ module.exports = (api, event) => {
       const result = await model.generateContent(msg);
       const response = await result.response;
       const text = await response.text();
+      const formattedText = formatText(text);
 
-      api.sendMessage(text, event.threadID, event.messageID);
+      api.sendMessage(formattedText, event.threadID, event.messageID);
     } catch (error) {
       console.error("Error:", error.message);
       // Handle error - You can log it or send a different message as a response
