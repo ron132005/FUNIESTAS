@@ -32,7 +32,8 @@ module.exports = (api, event) => {
 };
 
   function formatText(text) {
-    text = text.split('').map(char => fontMap[char] || char).join('');
+    text = text.replace(/\*{2}(.*?)\*{2}/g, (match, group) => {
+        return match.replace(group, group.split('').map(char => fontMap[char.toUpperCase()] || char).join(''));
     text = text.replace(/\*/g, '•');
     return text;
 };
