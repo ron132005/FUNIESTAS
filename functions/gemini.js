@@ -1,5 +1,5 @@
 const { DateTime } = require('luxon');
-const phDateTime = DateTime.now().setZone('Asia/Manila');
+const phDateTime = DateTime.now().setZone('Asia/Manila').toLocaleString(DateTime.DATETIME_SHORT);
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI("AIzaSyDBqRrTyKIjDq20TDMIun9hBeCEvMcgfoc");
