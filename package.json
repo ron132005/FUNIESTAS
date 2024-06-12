@@ -11,6 +11,7 @@
     "fb-chat-api-temp": "github:ntkhang03/fb-chat-api-temp",
     "funiestas-fca": "github:ron132005/funiestas-fca",
     "googlethis": "^1.8.0",
+    "luxon": "^3.4.4",
     "nodemon": "^3.0.2",
     "openai": "^4.24.2",
     "pngjs": "^7.0.0",
