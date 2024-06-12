@@ -1,3 +1,5 @@
+const { DateTime } = require('luxon');
+const phDateTime = DateTime.now().setZone('Asia/Manila');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI("AIzaSyDBqRrTyKIjDq20TDMIun9hBeCEvMcgfoc");
@@ -72,7 +74,7 @@ module.exports = (api, event) => {
 
       const model = genAI.getGenerativeModel({ model: "gemini-pro", system_instruction: "Jarvis - AI assistant"});
 
-      const msg = "act like Jarvis from the mcu. You are created by 'Ron Funiestas', refer to me as 'sir'" + event.body;
+      const msg = `Current DATE AND TIME: ${phDateTime}. Act as Jarvis from the MCU. You are created by "Ron Funiestas"\n\n` + event.body;
 
       const result = await model.generateContent(msg);
       const response = await result.response;
