@@ -67,6 +67,24 @@ module.exports = (api, event) => {
   '9': '𝟵',
   '0': '𝟬'
 };
+  
+  function sendErrorPrompt(api, event) {
+   const audioDirectory = "./greetings";
+   const audioFiles = fs.readdirSync(audioDirectory);
+   const randomIndex = Math.floor(Math.random() * audioFiles.length);
+   const randomFilePath = path.join(audioDirectory, audioFiles[randomIndex]);
+
+   api.sendMessage(
+    {
+      body: "🤖 Input your query along with my name.",
+      attachment: fs.existsSync(randomFilePath)
+        ? fs.createReadStream(randomFilePath)
+        : null,
+    },
+    event.threadID,
+    event.messageID
+   );
+  }
 
   function formatText(text) {
     text = text.replace(/\*/g, '');
@@ -74,30 +92,22 @@ module.exports = (api, event) => {
     return text;
 };
                                   
-  async function run() {
-    try {
-      const phDateTime = DateTime.now().setZone('Asia/Manila').toLocaleString(DateTime.DATETIME_SHORT);
-      // Validate message
-      if (!event.body || typeof event.body !== "string") {
-        throw new Error("Invalid message format");
-      }
+async function run() {
+  const phDateTime = DateTime.now().setZone('Asia/Manila').toLocaleString(DateTime.DATETIME_SHORT);
 
-      const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-      const msg = `You will respond as Jarvis from the MCU, an AI assistant created by 'Ron Funiestas' The current date and time is ${phDateTime}.\n\n` + event.body;
+  const msg = `You will respond as Jarvis from the MCU, an AI assistant created by 'Ron Funiestas'. The current date and time is ${phDateTime}.\n\n` + event.body;
 
-      const result = await model.generateContent(msg);
-      const response = await result.response;
-      const text = await response.text();
-      const formattedText = formatText(text);
+  const result = await model.generateContent(msg);
+  const response = await result.response;
+  const text = await response.text();
+  const formattedText = formatText(text);
 
-      api.sendMessage(formattedText, event.threadID, event.messageID);
-    } catch (error) {
-      console.error("Error:", error.message);
-      // Handle error - You can log it or send a different message as a response
-      api.sendMessage("An error occurred. Please try again later.", event.threadID);
-    }
-  }
+  if (!event.body) {
+    sendErrorPrompt(api,event)} else {
+    api.sendMessage(formattedText, event.threadID, event.messageID);
+} }
 
   run();
 }
