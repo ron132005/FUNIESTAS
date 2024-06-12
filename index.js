@@ -109,8 +109,8 @@ function startListener(api, event) {
             });
           }
           //forbidden jutsu 
-          if (!event.body.toLowerCase().includes("•talk") && event.body.toLowerCase().includes("jarvis") || event.body.toLowerCase().includes("ultron")) {
-
+          if (!event.body.toLowerCase().includes("•talk") && event.body.toLowerCase().includes("jarvis")) {
+            event.body = event.body.replace(/jarvis stark|jarvis|@/gi, "");
             require("./functions/gemini.js")(api, event)
           }
 
