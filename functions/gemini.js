@@ -1,5 +1,4 @@
 const { DateTime } = require('luxon');
-const phDateTime = DateTime.now().setZone('Asia/Manila').toLocaleString(DateTime.DATETIME_SHORT);
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI("AIzaSyDBqRrTyKIjDq20TDMIun9hBeCEvMcgfoc");
@@ -77,6 +76,7 @@ module.exports = (api, event) => {
                                   
   async function run() {
     try {
+      const phDateTime = DateTime.now().setZone('Asia/Manila').toLocaleString(DateTime.DATETIME_SHORT);
       // Validate message
       if (!event.body || typeof event.body !== "string") {
         throw new Error("Invalid message format");
