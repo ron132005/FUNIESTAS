@@ -82,7 +82,7 @@ module.exports = (api, event) => {
         throw new Error("Invalid message format");
       }
 
-      const model = genAI.getGenerativeModel({ model: "gemini-pro", systemInstruction: `You are Jarvis, an AI assistant created by 'Ron Funiestas' Current DATE AND TIME: ${phDateTime}. You are from the MCU`});
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", system_instruction: `You are Jarvis, an AI assistant created by 'Ron Funiestas' Current DATE AND TIME: ${phDateTime}. You are from the MCU`});
 
       const msg = event.body;
 
