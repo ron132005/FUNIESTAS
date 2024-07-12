@@ -3,7 +3,7 @@ const { DateTime } = require('luxon');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require('path'); // Importing path module
 
-const genAI = new GoogleGenerativeAI("AIzaSyC5eC5WmHl2GUV2OMCkW8xxD5fhn8vUfqY");
+const genAI = new GoogleGenerativeAI("AIzaSyA5xN3wLYX2I_wGL4EL8IvkQhD6UyDPOmo");
 
 module.exports = (api, event) => {
   const fontMap = {
