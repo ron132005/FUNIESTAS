@@ -1,38 +1,42 @@
 const fs = require("fs");
+const path = require("path");
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
-const axios = require("axios");
 
 const downloadSong = async (videoId, filePath) => {
+  try {
+    const downloadStream = ytdl(videoId, { quality: 'highestaudio' });
+    const writer = fs.createWriteStream(filePath);
+    downloadStream.pipe(writer);
 
-  const videoInfo = await ytdl.getInfo(videoId);
-  const downloadStream = ytdl(videoId, { quality: 'highestaudio' });
-
-  const writer = fs.createWriteStream(filePath);
-  downloadStream.pipe(writer);
-
-  return new Promise((resolve, reject) => {
-    writer.on("finish", () => {
-      resolve();
+    return new Promise((resolve, reject) => {
+      writer.on("finish", resolve);
+      writer.on("error", reject);
     });
-    writer.on("error", reject);
-  });
+  } catch (error) {
+    throw new Error(`Error downloading the song: ${error.message}`);
+  }
 };
 
 const searchAndDownloadSong = async (songQuery) => {
-  const { videos } = await search(songQuery);
-  const firstVideo = videos[0];
+  try {
+    const { videos } = await search(songQuery);
+    const firstVideo = videos[0];
 
-  if (!firstVideo) {
-    throw new Error("Video information not found");
+    if (!firstVideo) {
+      throw new Error("Video information not found");
+    }
+
+    const { videoId, title, author } = firstVideo;
+    const safeTitle = title.replace(/[^a-zA-Z0-9]/g, "_");
+    const filePath = path.join(__dirname, "temp", "song", `${safeTitle}.mp3`);
+
+    await downloadSong(videoId, filePath);
+
+    return { filePath, videoTitle: title, channelName: author.name };
+  } catch (error) {
+    throw new Error(`Error searching and downloading the song: ${error.message}`);
   }
-
-  const { videoId, title, author } = firstVideo;
-  const filePath = `./temp/song/${title.replace(/\s/g, "-")}.mp3`;
-
-  await downloadSong(videoId, filePath);
-
-  return { filePath, videoTitle: title, channelName: author.name };
 };
 
 module.exports = async (api, event) => {
@@ -64,13 +68,13 @@ module.exports = async (api, event) => {
 
         fs.unlink(filePath, (unlinkErr) => {
           if (unlinkErr) {
-            console.log(unlinkErr);
+            console.log(`Error deleting the file: ${unlinkErr.message}`);
           }
         });
       }
     );
   } catch (error) {
-    console.log(error);
+    console.log(`Error processing the song request: ${error.message}`);
     api.sendMessage("🚨 𝗦𝗼𝗻𝗴 𝗻𝗼𝘁 𝗳𝗼𝘂𝗻𝗱.", event.threadID, event.messageID);
   }
 };
