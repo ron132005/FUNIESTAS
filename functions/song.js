@@ -1,16 +1,10 @@
 const fs = require("fs");
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
-const path = require("path");
-
-// Ensure the temp directory exists
-const ensureDirExists = (dirPath) => {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-};
+const axios = require("axios");
 
 const downloadSong = async (videoId, filePath) => {
+
   const videoInfo = await ytdl.getInfo(videoId);
   const downloadStream = ytdl(videoId, { quality: 'highestaudio' });
 
@@ -18,7 +12,9 @@ const downloadSong = async (videoId, filePath) => {
   downloadStream.pipe(writer);
 
   return new Promise((resolve, reject) => {
-    writer.on("finish", resolve);
+    writer.on("finish", () => {
+      resolve();
+    });
     writer.on("error", reject);
   });
 };
@@ -32,10 +28,7 @@ const searchAndDownloadSong = async (songQuery) => {
   }
 
   const { videoId, title, author } = firstVideo;
-  const sanitizedTitle = title.replace(/[\/\\?%*:|"<>]/g, '-'); // Sanitize file name
-  const filePath = path.join(__dirname, 'temp', 'song', `${sanitizedTitle}.mp3`);
-
-  ensureDirExists(path.dirname(filePath));
+  const filePath = `./temp/song/${title.replace(/\s/g, "-")}.mp3`;
 
   await downloadSong(videoId, filePath);
 
@@ -65,19 +58,19 @@ module.exports = async (api, event) => {
       event.threadID,
       (err, messageInfo) => {
         if (err) {
-          console.log("Error sending message:", err);
+          console.log(err);
+          return;
         }
 
-        // Clean up the temporary file
         fs.unlink(filePath, (unlinkErr) => {
           if (unlinkErr) {
-            console.log("Error deleting temporary file:", unlinkErr);
+            console.log(unlinkErr);
           }
         });
       }
     );
   } catch (error) {
-    console.log("Error:", error);
+    console.log(error);
     api.sendMessage("🚨 𝗦𝗼𝗻𝗴 𝗻𝗼𝘁 𝗳𝗼𝘂𝗻𝗱.", event.threadID, event.messageID);
   }
 };
