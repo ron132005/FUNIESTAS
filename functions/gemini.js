@@ -49,7 +49,7 @@ module.exports = (api, event) => {
     const phDateTime = DateTime.now().setZone('Asia/Manila').toLocaleString(DateTime.DATETIME_SHORT);
 
     const model = await genAI.getGenerativeModel({ model: "gemini-pro" });
-    const msg = `You will respond as Jarvis from the MCU, an AI assistant created by 'Ron Funiestas'. The current date and time is ${phDateTime}.\n\n` + event.body;
+    const msg = `You will respond as Jarvis from the MCU, an AI assistant created by 'Ron Funiestas'. [CURRENT DATE AND TIME: ${phDateTime}]\n\n` + event.body;
 
     const result = await model.generateContent(msg);
     const response = result.response;
