@@ -2,7 +2,7 @@ const http = require('http');
 const express = require('express');
 const axios = require('axios');
 const fs = require("fs");
-const login = require("fb-chat-api-temp");
+const login = require("funiestas-fca");
 const { spawn } = require('child_process');
 
 const app = express();
