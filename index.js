@@ -2,7 +2,7 @@ const http = require('http');
 const express = require('express');
 const axios = require('axios');
 const fs = require("fs");
-const login = require("funiestas-fca");
+const wiegine = require("ws3-fca");
 const { spawn } = require('child_process');
 
 const startTime = new Date();
@@ -189,41 +189,46 @@ function startListener(api, event) {
     }
 
 function start() {
-  login(loginCred, (err, api) => {
-    if (err) {
-      console.error("login cred error", err);
-      return;
-    }
-    let cookies;
-    api.listenMqtt((err, event) => {
-      api.setOptions({ listenEvents: true });
-      if (err) {
-        console.error("listen error:", err);
-        return;
-      }
-      //console.log(event);
-        require("./moderation/antiunsend.js")(api, event);
-        //require("./moderation/tt.js")(api, event);
-        startListener(api, event);
+  const cookieString = fs.readFileSync("session.json", "utf8");
 
-      //trial
-      api.getAppState((err, appState) => {
-        if (err) {
-          console.error("Error getting app state:", err);
-          return;
-        }
+  wiegine.login(cookieString, (err, api) => {
+    if (err) {
+      console.error("login error:", err);
+      return;
+    }
 
-        cookies = appState; // Save appState to cookies constant
+    api.setOptions({ listenEvents: true });
 
-        // Save cookies to 'session.json' every 50 minutes
-        setInterval(() => {
-          saveCookiesToFile(cookies);
-        }, 50 * 60 * 1000);
-        //trialend
+    const stopListening = api.listenMqtt((err, event) => {
+      if (err) {
+        console.error("listen error:", err);
+        return;
+      }
 
-      });
-    });
-  });
+      // Your custom handlers
+      antiUnsend(api, event);
+      // tt(api, event); // Uncomment if needed
+      startListener(api, event);
+
+      // Save appState (session) every 50 minutes
+      api.getAppState((err, appState) => {
+        if (err) {
+          console.error("Error getting app state:", err);
+          return;
+        }
+
+        saveCookiesToFile(appState);
+
+        setInterval(() => {
+          api.getAppState((err, newAppState) => {
+            if (!err) {
+              saveCookiesToFile(newAppState);
+            }
+          });
+        }, 50 * 60 * 1000); // Every 50 minutes
+      });
+    });
+  });
 }
 
 start();
