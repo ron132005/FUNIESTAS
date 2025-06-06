@@ -40,25 +40,6 @@ function displayUptime(api, event) {
         api.sendMessage(`🤖 Jarvis has been running for ${formatUptime(uptime)}!\n\nLooking for Virtual Private Server(VPS)?\n🤖 Message this account and we'll arrange your VPS`, event.threadID, event.messageID);
 }
 
-function saveCookiesToFile(cookies) {
-  const fs = require('fs');
-  const data = JSON.stringify(cookies);
-  
-  fs.writeFile('session.json', data, (err) => {
-    if (err) {
-      console.error("Error saving cookies to file:", err);
-    } else {
-      console.log("Cookies saved to session.json");
-    }
-  });
-}
-
-
-
-
-const loginCred = {
-  appState: JSON.parse(fs.readFileSync("session.json", "utf-8")),
-};
 
     // Here you can use the api             
 let running = false;
@@ -189,7 +170,7 @@ function startListener(api, event) {
     }
 
 function start() {
-  const cookieString = fs.readFileSync("session.json", "utf8");
+  const cookieString = fs.readFileSync("session.txt", "utf8");
 
   wiegine.login(cookieString, (err, api) => {
     if (err) {
@@ -209,24 +190,6 @@ function start() {
       antiUnsend(api, event);
       // tt(api, event); // Uncomment if needed
       startListener(api, event);
-
-      // Save appState (session) every 50 minutes
-      api.getAppState((err, appState) => {
-        if (err) {
-          console.error("Error getting app state:", err);
-          return;
-        }
-
-        saveCookiesToFile(appState);
-
-        setInterval(() => {
-          api.getAppState((err, newAppState) => {
-            if (!err) {
-              saveCookiesToFile(newAppState);
-            }
-          });
-        }, 50 * 60 * 1000); // Every 50 minutes
-      });
     });
   });
 }
