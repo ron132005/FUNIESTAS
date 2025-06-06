@@ -2,7 +2,7 @@ const http = require('http');
 const express = require('express');
 const axios = require('axios');
 const fs = require("fs");
-const wiegine = require("ws3-fca");
+const { login } = require("ws3-fca"); // Fixed import
 const { spawn } = require('child_process');
 
 const startTime = new Date();
@@ -172,7 +172,7 @@ function startListener(api, event) {
 function start() {
   const cookieString = fs.readFileSync("session.txt", "utf8");
 
-  wiegine.login(cookieString, (err, api) => {
+  login(cookieString, (err, api) => {
     if (err) {
       console.error("login error:", err);
       return;
@@ -186,9 +186,7 @@ function start() {
         return;
       }
 
-      // Your custom handlers
       antiUnsend(api, event);
-      // tt(api, event); // Uncomment if needed
       startListener(api, event);
     });
   });
