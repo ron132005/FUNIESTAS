@@ -5,17 +5,6 @@ const fs = require("fs");
 const login = require("funiestas-fca");
 const { spawn } = require('child_process');
 
-const app = express();
-
-// Route to respond with "hello"
-app.use(express.static('public'));
-
-const PORT = 10000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 const startTime = new Date();
 
 function formatUptime(uptime) {
